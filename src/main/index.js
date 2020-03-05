@@ -18,9 +18,9 @@ const winURL = process.env.NODE_ENV === 'development'
 function createWindow () {
   // add the webPreferences property passed to BrowserWindow
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 768,
     useContentSize: true,
-    width: 1000,
+    width: 1366,
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true
@@ -35,7 +35,6 @@ function createWindow () {
       mainWindow.webContents.once("devtools-opened", () => {
         mainWindow.focus()
       })
-      mainWindow.webContents.openDevTools()
     })
   }
 }
