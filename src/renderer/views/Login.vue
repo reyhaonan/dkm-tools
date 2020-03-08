@@ -1,24 +1,27 @@
 <template>
-  <main>
-    <h1>p</h1>
+  <main class="login">
+    ajhdg
+    <router-link to="/beranda">Login</router-link>
   </main>
 </template>
 
 <script>
   export default {
-    name: 'landing-page'
+    name: 'Login',
+    created(){
+      this.$http.get("uy")
+      .then((result) => {
+        // alert(result)
+      }).catch((err) => {
+        
+      });
+    }
   }
 </script>
 
-<style>
-  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
-
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+<style lang="scss" scoped>
+  .login{
+    background: none;
+    box-shadow: none;
   }
-
-  body { font-family: 'Source Sans Pro', sans-serif; }
-
 </style>

@@ -1,6 +1,16 @@
 'use strict'
 
 import { app, BrowserWindow } from 'electron'
+import { Router } from 'electron-routes'
+
+
+const api = new Router('app');
+api.get('api/uy', (req, res) => {
+  res.json({
+    hello: 'world',
+  })
+})
+
 
 /**
  * Set `__static` path to static files in production
@@ -18,9 +28,10 @@ const winURL = process.env.NODE_ENV === 'development'
 function createWindow () {
   // add the webPreferences property passed to BrowserWindow
   mainWindow = new BrowserWindow({
-    height: 768,
+    height: 720,
     useContentSize: true,
-    width: 1366,
+    width: 1280,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true

@@ -7,8 +7,16 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'login',
-      component: require('@/views/Login').default
+      name: 'Login',
+      component: require('@/views/Login').default,
+      meta:{
+        login: true
+      }
+    },
+    {
+      path: '/beranda',
+      name: 'Beranda',
+      component: require('@/views/Beranda').default
     },
     {
       path: '/test',

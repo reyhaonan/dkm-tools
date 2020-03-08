@@ -16,6 +16,13 @@
     <% if (!htmlWebpackPlugin.options.isBrowser && !htmlWebpackPlugin.options.isDevelopment) { %>
       <script>
         window.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+
+        setTimeout(() => {
+          var e = document.getElementById("calendars").classList
+          e.remove("vc-border")
+          e.add("shadow")
+        },100)
+        
       </script>
     <% } %>
 
