@@ -2,7 +2,7 @@
 
 import { app, BrowserWindow } from 'electron'
 import api from './api.js'
-
+import sequelize from './database.js'
 
 
 /**
