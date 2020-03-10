@@ -22,7 +22,7 @@ $chateauGreen: #45B161;
   appearance: none;
   box-sizing: border-box;
   margin: 0;padding: 0;
-  font-family: 'Jost*'
+  font-family: 'Jost*','Segoe UI', Verdana, Geneva, Tahoma, sans-serif;
 }
 
 body{
@@ -82,4 +82,8 @@ h6, .h6{
 
 .shadow{
   box-shadow: 0 5px 10px rgba(#04173D,.05);
+}
+
+.pointer{
+  cursor: pointer;
 }

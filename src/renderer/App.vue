@@ -3,7 +3,7 @@
     <vue-progress-bar />
     <navigation-bar v-if="!$route.meta.login"/>
     <router-view class="view rounded shadow bg-white"></router-view>
-    <vc-calendar id="calendars" v-if="!$route.meta.login"/>
+    <vc-calendar id="calendars" v-if="!$route.meta.login" :attributes="attributes" />
   </div>
 </template>
 
@@ -12,6 +12,21 @@ import NavigationBar from '@/components/Navigationbar'
 
 export default {
   name: 'aplikasidkm',
+  data(){
+    return {
+      attributes: [
+      {
+        key: 'today',
+        highlight: {
+          color: 'green',
+          fillMode: 'light',
+          contentClass: 'italic', // Class provided by TailwindCSS
+        },
+        dates: new Date()
+      }
+      ]
+    }
+  },
   components: {
     NavigationBar
   },
@@ -23,6 +38,8 @@ export default {
     })
   },
   created () {
+
+    this.$http.get('uy')
     //  [App.vue specific] When App.vue is first loaded start the progress bar
     this.$Progress.finish()
     //  hook the progress bar to start before we move router-view
@@ -55,7 +72,7 @@ export default {
 
 .view{
   flex-basis: calc(100% - 222px - 256px - 4rem);
-  padding: 0 1rem;
+  padding: 0 2rem;
 }
 
 </style>

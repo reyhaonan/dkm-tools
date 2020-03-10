@@ -1,12 +1,15 @@
 <template>
   <main>
-    
+    <ViewNavbar/>
   </main>
 </template>
 
 <script>
-export default {
-
+import ViewNavbar from '@/components/ViewNavbar'
+export default { 
+  components:{
+    ViewNavbar
+  }
 }
 </script>
 

@@ -1,15 +1,8 @@
 'use strict'
 
 import { app, BrowserWindow } from 'electron'
-import { Router } from 'electron-routes'
+import api from './api.js'
 
-
-const api = new Router('app');
-api.get('api/uy', (req, res) => {
-  res.json({
-    hello: 'world',
-  })
-})
 
 
 /**

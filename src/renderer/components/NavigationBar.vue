@@ -4,11 +4,11 @@
       <span class="navigation__brand__name text-dovegray h4">
         DKM Manage
       </span>
-      <i class="navigation__brand__more material-icons text-cadetblue">more_horiz</i>
+      <i class="navigation__brand__more material-icons text-cadetblue pointer">more_horiz</i>
     </div>
 
     <div class="navigation__routes">
-      <router-link to="/" class="navigation__routes__link"><i class="material-icons">home</i>Beranda</router-link>
+      <router-link to="/beranda" class="navigation__routes__link"><i class="material-icons">home</i>Beranda</router-link>
       <router-link to="/test" class="navigation__routes__link"><i class="material-icons">folder</i>Data warga</router-link>
       <router-link to="/" class="navigation__routes__link"><i class="material-icons">collections</i>Galeri</router-link>
     </div>
