@@ -73,6 +73,13 @@ export default {
 .view{
   flex-basis: calc(100% - 222px - 256px - 4rem);
   padding: 0 2rem;
+  height: 100vh;
+  overflow: auto;
+
 }
 
+#calendars{
+  max-height: 266px;
+  overflow: hidden;
+}
 </style>

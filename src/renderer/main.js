@@ -6,6 +6,9 @@ import router from './router'
 import store from './store'
 import VCalendar from 'v-calendar';
 import VueProgressBar from 'vue-progressbar'
+
+
+
 const options = {
   color: '#45B161',
   failedColor: '#874b4b',
