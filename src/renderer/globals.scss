@@ -45,6 +45,10 @@ $chateauGreen: #45B161;
   &::-webkit-scrollbar-thumb:hover {
     background: rgb(155, 155, 155);
   }
+
+  &::selection{
+    background: none;
+  }
 }
 
 body{

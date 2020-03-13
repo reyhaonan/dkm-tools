@@ -2,12 +2,6 @@
 
 import { app, BrowserWindow } from 'electron'
 import api from './api.js'
-// import sequelize from './database.js'
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: './db.sqlite'
-});
 
 
 /**
@@ -61,7 +55,6 @@ app.on('activate', () => {
     createWindow()
   }
 })
-
 /**
  * Auto Updater
  *

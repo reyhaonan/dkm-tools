@@ -109,6 +109,7 @@
     "node-loader": "^0.6.0",
     "node-sass": "^4.13.1",
     "sass-loader": "^7.3.1",
+    "sequelize-cli": "^5.5.1",
     "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",
     "vue-html-loader": "^1.2.4",
