@@ -2,19 +2,16 @@
   "development": {
     "database": "database_development",
     "dialect": "sqlite",
-    "operatorsAliases": false,
     "storage": "./db.sqlite"
   },
   "test": {
     "database": "database_test",
     "dialect": "sqlite",
-    "operatorsAliases": false,
     "storage": "./db.sqlite"
   },
   "production": {
     "database": "database_production",
     "dialect": "sqlite",
-    "operatorsAliases": false,
     "storage": "./db.sqlite"
   }
 }

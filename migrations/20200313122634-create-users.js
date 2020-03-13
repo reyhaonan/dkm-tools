@@ -1,15 +1,15 @@
+import uuid from 'uuid'
+
+
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Users', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      id: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        defaultValue: () => uuid()
       },
       username: {
         type: Sequelize.TEXT
