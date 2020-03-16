@@ -50,7 +50,9 @@ export default {
 
 .tablecontainer{
   width: 100%;
-  overflow: auto;
+  min-height: 400px;
+  overflow-x: auto;
+  overflow-y: visible;
 }
 
 table, th, td {

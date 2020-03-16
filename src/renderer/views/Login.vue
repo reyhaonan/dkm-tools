@@ -30,19 +30,37 @@
     },
     methods: {
       login(){
-        this.$http.post('/login', {
-          username: this.username,
-          password: this.password
-        })
-        .then(res => {
-          this.$store.dispatch('login', {
+        if (this.username == '' && this.password == '') {
+          this.error = "Isi kolom username dan password"
+        }
+
+        else if(this.username == '') {
+          this.error = "Mohon isi kolom username"
+        }
+
+        else if(this.username !== '' && this.password == '') {
+          this.error = "Mohon isi kolom password"
+        }
+        
+        else{
+          this.$http.post('/login', {
             username: this.username,
             password: this.password
           })
-          this.$router.push('/beranda')
-          
-        })
-        .catch(err => this.error = err.response.data)
+          .then(res => {
+            this.$store.dispatch('login', {
+              username: this.username,
+              password: this.password
+            })
+            this.$router.push('/beranda')
+            
+          })
+          .catch(err => this.error = err.response.data)
+        }
+
+
+        
+        
       }
     }
   }
