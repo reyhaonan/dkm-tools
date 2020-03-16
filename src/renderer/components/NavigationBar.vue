@@ -2,22 +2,28 @@
   <nav class="navigation">
     <div class="navigation__brand bg-white rounded shadow">
       <span class="navigation__brand__name text-dovegray h4">
-        DKM Manage
+        DKM Master
       </span>
       <i class="navigation__brand__more material-icons text-cadetblue pointer">more_horiz</i>
     </div>
 
     <div class="navigation__routes">
       <router-link to="/beranda" class="navigation__routes__link"><i class="material-icons">home</i>Beranda</router-link>
-      <router-link to="/test" class="navigation__routes__link"><i class="material-icons">folder</i>Data warga</router-link>
-      <router-link to="/" class="navigation__routes__link"><i class="material-icons">collections</i>Galeri</router-link>
+      <router-link to="/data" class="navigation__routes__link"><i class="material-icons">folder</i>Data warga</router-link>
+      <router-link to="/test" class="navigation__routes__link"><i class="material-icons">collections</i>Galeri</router-link>
+      <a class="navigation__routes__link pointer" @click.prevent="logout"><i class="material-icons">exit_to_app</i>Logout</a>
     </div>
   </nav>
 </template>
 
 <script>
 export default {
-
+  methods:{
+    logout(){
+      this.$store.dispatch('logout')
+      this.$router.push('/')
+    }
+  }
 }
 </script>
 

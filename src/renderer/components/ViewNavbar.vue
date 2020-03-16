@@ -1,8 +1,9 @@
 <template>
   <nav class="viewnav">
-    <i class="searchbutton material-icons pointer text-dovegray h3">search</i>
+    <i class="searchbutton material-icons pointer text-dovegray h3" v-tooltip.bottom-center="'Cari data'">search</i>
     <span class="viewnav__name h3 text-dovegray">{{ $route.name }}</span>
-    <i class="refreshbutton material-icons pointer text-dovegray h3" @click="$forceUpdate()">refresh</i>
+    <i class="addbutton material-icons pointer text-dovegray h3" v-tooltip.bottom-center="'Tambah data'" @click="$root.$emit('addItem')">add</i>
+    <i class="refreshbutton material-icons pointer text-dovegray h3" v-tooltip.bottom-center="'Refresh halaman'" @click="$forceUpdate()">refresh</i>
   </nav>
 </template>
 
@@ -17,7 +18,10 @@ export default {
     height: 50px;
     width: 100%;
     display: flex;
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: white;
     
     &::after{
       content: '';
@@ -37,13 +41,14 @@ export default {
       transform: translate(-50%,-50%);
     }
 
-    i{
-      &:nth-child(1){
-        margin: margin($left:0);
-      }
-      &:nth-last-child(1){
-        margin: margin($right:0);
-      }
+    .searchbutton{
+      margin: margin($left:0);
+    }
+    .addbutton{
+      margin: margin($right:1rem);
+    }
+    .refreshbutton{
+      margin: margin($right:0,$left:0);
     }
   }
 </style>

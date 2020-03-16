@@ -1,28 +1,12 @@
 import Vue from 'vue'
 import axios from 'axios'
-import { rendererPreload } from 'electron-routes';
 import App from './App'
 import router from './router'
 import store from './store'
-import VCalendar from 'v-calendar';
-import VueProgressBar from 'vue-progressbar'
+import VCalendar from 'v-calendar'
+import VTooltip from 'v-tooltip'
 
-
-
-const options = {
-  color: '#45B161',
-  failedColor: '#874b4b',
-  thickness: '2px',
-  transition: {
-    speed: '0.2s',
-    opacity: '0.6s',
-    termination: 300
-  },
-  autoRevert: true,
-  inverse: false
-}
-
-Vue.use(VueProgressBar, options)
+Vue.use(VTooltip)
 // Use v-calendar & v-date-picker components
 Vue.use(VCalendar, {
   componentPrefix: 'vc'
@@ -30,7 +14,7 @@ Vue.use(VCalendar, {
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios.create({
-  baseURL: 'app://api/'
+  baseURL: 'http://localhost:9000'
 })
 Vue.config.productionTip = false
 
@@ -43,5 +27,12 @@ new Vue({
 }).$mount('#app')
 
 
+import { remote } from 'electron'
 
-rendererPreload();
+remote.globalShortcut.register('CommandOrControl+Shift+K', () => {
+  remote.BrowserWindow.getFocusedWindow().webContents.openDevTools()
+})
+
+window.addEventListener('beforeunload', () => {
+  remote.globalShortcut.unregisterAll()
+})

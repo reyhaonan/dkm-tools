@@ -1,8 +1,7 @@
 'use strict'
 
 import { app, BrowserWindow } from 'electron'
-import api from './api.js'
-
+import api from './api'
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -18,11 +17,13 @@ const winURL = process.env.NODE_ENV === 'development'
 
 function createWindow () {
   // add the webPreferences property passed to BrowserWindow
+  
   mainWindow = new BrowserWindow({
     height: 720,
     useContentSize: true,
     width: 1280,
-    resizable: false,
+    minWidth: 1280,
+    minHeight: 600,
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true
@@ -39,6 +40,12 @@ function createWindow () {
       })
     })
   }
+
+  function navigate (routePath) {
+    if (mainWindow.webContents) {
+      mainWindow.webContents.send('navigate', routePath)
+    }
+  }
 }
 
 app.on('ready', createWindow)
@@ -54,6 +61,8 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+
 /**
  * Auto Updater
  *

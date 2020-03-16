@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <vue-progress-bar />
     <navigation-bar v-if="!$route.meta.login"/>
     <router-view class="view rounded shadow bg-white"></router-view>
     <vc-calendar id="calendars" v-if="!$route.meta.login" :attributes="attributes" />
@@ -37,28 +36,9 @@ export default {
       e.add("shadow")
     })
   },
-  created () {
-
-    this.$http.get('uy')
-    //  [App.vue specific] When App.vue is first loaded start the progress bar
-    this.$Progress.finish()
-    //  hook the progress bar to start before we move router-view
-    this.$router.beforeEach((to, from, next) => {
-      //  does the page we want to go to have a meta.progress object
-      if (to.meta.progress !== undefined) {
-        let meta = to.meta.progress
-        // parse meta tags
-        this.$Progress.parseMeta(meta)
-      }
-      //  start the progress bar
-      this.$Progress.start()
-      //  continue to next page
-      next()
-    })
-    //  hook the progress bar to finish after we've finished moving router-view
-    this.$router.afterEach((to, from) => {
-      //  finish the progress bar
-      this.$Progress.finish()
+  mounted(){
+    this.$electron.ipcRenderer.on('navigate', (e, routePath) => {
+      this.$router.push(routePath)
     })
   }
 }
@@ -72,14 +52,13 @@ export default {
 
 .view{
   flex-basis: calc(100% - 222px - 256px - 4rem);
-  padding: 0 2rem;
-  height: 100vh;
+  padding: 0 2rem 2rem 2rem;
+  height: calc(100vh - 2rem);
   overflow: auto;
-
 }
 
 #calendars{
-  max-height: 266px;
+  max-height: 270px;
   overflow: hidden;
 }
 </style>
