@@ -1,4 +1,4 @@
-# aplikasidkm
+# DKM Master
 
 > aplikasi dkm untuk memudahkan dkm
 [![forthebadge](https://forthebadge.com/images/badges/made-with-vue.svg)](https://forthebadge.com)
