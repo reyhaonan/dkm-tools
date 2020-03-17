@@ -68,6 +68,7 @@ th, td{
   padding: .3rem 2rem;
 }
 
+
 tbody tr{
   border-bottom: 1px solid $whiteLilac;
 

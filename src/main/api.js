@@ -7,7 +7,7 @@ const bodyParser = require('body-parser')
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: './db.sqlite'
+  storage: './consequences.sqlite'
 });
 
 const Users = sequelize.define('users', {
@@ -40,12 +40,12 @@ const Users = sequelize.define('users', {
         }
     })
     
-sequelize.sync().then(() => {
-    // return Users.create({
-    //     username: 'admin',
-    //     password: 'roti2020'
-    // })
-})
+// sequelize.sync().then(() => {
+//     // return Users.create({
+//     //     username: 'admin',
+//     //     password: 'roti2020'
+//     // })
+// })
 
 const route = express()
 
@@ -66,6 +66,7 @@ route.use(bodyParser.json());
 route.use(cors(corsConfig))
 
 route.post('/login', async (req, res) => {
+
     const user = await Users.findOne({
         where: {
             username: req.body.username

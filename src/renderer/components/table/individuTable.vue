@@ -25,10 +25,23 @@
           <tr class="inputdata" v-show="showInputData">
             <td><input type="text" v-model="inputData.nama"></td>
             <td><input type="text" v-model="inputData.nik"></td>
+            <td><select v-model="inputData.jenis_kelamin">
+                <option value="Laki laki">Laki laki</option>
+                <option value="Perempuan">Perempuan</option>
+                <option value="Lainnya">Lainnya</option>
+              </select></td>
             <td><input type="text" v-model="inputData.no_kk"></td>
             <td><input type="text" v-model="inputData.tempat_lahir"></td>
-            <td><vc-date-picker :input-props='{
-    class: "date"}' type="text" v-model="inputData.tanggal_lahir"/></td>
+            <td><vc-date-picker :input-props='{class: "date"}' type="text" v-model="inputData.tanggal_lahir"/></td>
+            <td><select v-model="inputData.agama">
+                <option value="Islam">Islam</option>
+                <option value="Kristen">Kristen</option>
+                <option value="Katolik">Katolik</option>
+                <option value="Budha">Budha</option>
+                <option value="Hindu">Hindu</option>
+                <option value="Konghucu">Konghucu</option>
+              </select></td>
+            
           </tr>
 
           <tr>
@@ -130,5 +143,9 @@ export default {
   table{
     position: relative;
     z-index: 1;
+  }
+
+  .inputdata td{
+    padding: 1.6rem 2rem;
   }
 </style>

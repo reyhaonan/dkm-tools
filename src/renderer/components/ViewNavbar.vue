@@ -3,7 +3,7 @@
     <i class="searchbutton material-icons pointer text-dovegray h3" v-tooltip.bottom-center="'Cari data'">search</i>
     <span class="viewnav__name h3 text-dovegray">{{ $route.name }}</span>
     <i class="addbutton material-icons pointer text-dovegray h3" v-tooltip.bottom-center="'Tambah data'" @click="$root.$emit('addItem')">add</i>
-    <i class="refreshbutton material-icons pointer text-dovegray h3" v-tooltip.bottom-center="'Refresh halaman'" @click="$forceUpdate()">refresh</i>
+    <i class="refreshbutton material-icons pointer text-dovegray h3" v-tooltip.bottom-center="'Refresh halaman'" @click="$root.$forceUpdate()">refresh</i>
   </nav>
 </template>
 

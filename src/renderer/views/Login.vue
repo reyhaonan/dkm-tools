@@ -8,11 +8,11 @@
           <span class="loginform__errorcard__message">{{ error }}</span>
           <i class="loginform__errorcard__close material-icons h4 pointer" @click="error = ''">close</i>
         </div>
-        <input class="loginform__field textform h4 rounded" type="text" v-model="username" placeholder="Username">
+        <input class="loginform__field textform h4 rounded" type="text" v-model="username" placeholder="Username" autofocus>
         <input class="loginform__field textform h4 rounded" type="password" v-model="password" placeholder="Password">
         <button type="submit" class="loginform__button bg-chateaugreen rounded text-bold text-white pointer">Login</button>
       </form>
-      <img src="/static/decoration.svg" draggable="false" class="deco">
+      <img src="@/decoration.svg" draggable="false" class="deco">
     </div>
   </main>
 </template>

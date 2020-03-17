@@ -10,7 +10,7 @@
 import NavigationBar from '@/components/Navigationbar'
 
 export default {
-  name: 'aplikasidkm',
+  name: 'DKMMaster',
   data(){
     return {
       attributes: [

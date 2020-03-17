@@ -1,5 +1,5 @@
 {
-  "name": "aplikasidkm",
+  "name": "DKMMaster",
   "version": "0.0.1",
   "author": "",
   "description": "aplikasi dkm untuk memudahkan dkm",
@@ -46,7 +46,7 @@
       "icon": "build/icons/icon.icns"
     },
     "win": {
-      "icon": "build/icons/icon.ico"
+      "icon": "build/icons/logo.ico"
     },
     "linux": {
       "icon": "build/icons"
