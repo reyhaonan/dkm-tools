@@ -40,6 +40,8 @@ export default {
     this.$electron.ipcRenderer.on('navigate', (e, routePath) => {
       this.$router.push(routePath)
     })
+
+    this.$store.dispatch('fetchKk')
   }
 }
 </script>

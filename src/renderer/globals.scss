@@ -16,6 +16,9 @@ $chateauGreen: #45B161;
 @import "./Jost-400-Book.ttf";
 @import "./Jost-500-Medium.ttf";
 @import "~material-design-icons/iconfont/material-icons.css";
+@import '~vue-context/src/sass/vue-context';
+
+
 
 *{
   outline: none;
@@ -133,6 +136,10 @@ h6, .h6{
 
 .pointer{
   cursor: pointer;
+
+  &::selection{
+    background: none;
+  }
 }
 
 .textform{
@@ -151,7 +158,7 @@ h6, .h6{
   font-size: .8rem;
 
   .tooltip-inner {
-    background: rgba(rgb(94, 94, 94), $alpha: .8);
+    background: #2d3748;
     color: white;
     border-radius: 8px;
     padding: 5px 10px 4px;
@@ -163,7 +170,7 @@ h6, .h6{
     border-style: solid;
     position: absolute;
     margin: 5px;
-    border-color: rgba(rgb(94, 94, 94), $alpha: .9);
+    border-color: #2d3748;
   }
 
   &[x-placement^="top"] {

@@ -6,6 +6,7 @@ import store from './store'
 import VCalendar from 'v-calendar'
 import VTooltip from 'v-tooltip'
 
+
 Vue.use(VTooltip)
 // Use v-calendar & v-date-picker components
 Vue.use(VCalendar, {
@@ -14,7 +15,7 @@ Vue.use(VCalendar, {
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios.create({
-  baseURL: 'http://localhost:9000'
+  baseURL: 'http://localhost:30258'
 })
 Vue.config.productionTip = false
 

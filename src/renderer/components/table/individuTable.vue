@@ -1,5 +1,5 @@
 <template>
-  <table border="0">
+  <table border="0" class="individuTable">
         <thead>
           <tr>
             <th>Nama</th>
@@ -22,84 +22,61 @@
           </tr>
         </thead>
         <tbody>
+          
           <tr class="inputdata" v-show="showInputData">
-            <td><input type="text" v-model="inputData.nama"></td>
-            <td><input type="text" v-model="inputData.nik"></td>
-            <td><select v-model="inputData.jenis_kelamin">
-                <option value="Laki laki">Laki laki</option>
-                <option value="Perempuan">Perempuan</option>
-                <option value="Lainnya">Lainnya</option>
-              </select></td>
-            <td><input type="text" v-model="inputData.no_kk"></td>
-            <td><input type="text" v-model="inputData.tempat_lahir"></td>
-            <td><vc-date-picker :input-props='{class: "date"}' type="text" v-model="inputData.tanggal_lahir"/></td>
-            <td><select v-model="inputData.agama">
-                <option value="Islam">Islam</option>
-                <option value="Kristen">Kristen</option>
-                <option value="Katolik">Katolik</option>
-                <option value="Budha">Budha</option>
-                <option value="Hindu">Hindu</option>
-                <option value="Konghucu">Konghucu</option>
-              </select></td>
-            
+              <td><input type="text" v-model="inputData.nama" autofocus placeholder="..."></td>
+              <td><input type="text" v-model="inputData.nik" placeholder="..."></td>
+              <td><select v-model="inputData.jenisKelamin">
+                  <option value="Laki laki" selected>Laki laki</option>
+                  <option value="Perempuan">Perempuan</option>
+                  <option value="Lainnya">Lainnya</option>
+                </select></td>
+              <td><input type="text" v-model="inputData.noKk" placeholder="..."></td>
+              <td><input type="text" v-model="inputData.tempatLahir" placeholder="..."></td>
+              <td><vc-date-picker :input-props='{class: "date"}' type="text" v-model="inputData.tanggalLahir"/></td>
+              <td><select v-model="inputData.agama">
+                  <option value="Islam" selected>Islam</option>
+                  <option value="Kristen">Kristen</option>
+                  <option value="Katolik">Katolik</option>
+                  <option value="Budha">Budha</option>
+                  <option value="Hindu">Hindu</option>
+                  <option value="Konghucu">Konghucu</option>
+                </select></td>
+              <td><input type="text" v-model="inputData.pendidikan" placeholder="..."></td>
+              <td><input type="text" v-model="inputData.pekerjaan" placeholder="..."></td>
+              <td><input type="text" v-model="inputData.statusKawin" placeholder="..."></td>
+              <td><input type="text" v-model="inputData.statusDalamKeluarga" placeholder="..."></td>
+              <td><select v-model="inputData.kewarganegaraan">
+                  <option value="WNI" selected>WNI</option>
+                  <option value="WNA">WNA</option>
+                </select></td>
+              <td><input type="text" v-model="inputData.noPaspor" placeholder="..."></td>
+              <td><input type="text" v-model="inputData.noKitab" placeholder="..."></td>
+              <td><input type="text" v-model="inputData.namaAyah" placeholder="..."></td>
+              <td><input type="text" v-model="inputData.namaIbu" placeholder="..."></td>
+              <td><input type="text" v-model="inputData.ket" placeholder="..."></td>
+              <button type="submit" class="savebutton bg-chateaugreen" v-tooltip.bottom-center="'Simpan data'"><i class="material-icons text-white pointer">save</i></button>
+          </tr>
+          <tr>
+            <td>sda</td>
+            <td>sda</td>
+            <td>sda</td>
+            <td>sda</td>
+            <td>sda</td>
+            <td>sda</td>
+            <td>sda</td>
+            <td>sda</td>
+            <td>sda</td>
+            <td>sda</td>
+            <td>sda</td>
+            <td>sda</td>
+            <td>sda</td>
+            <td>sda</td>
+            <td>sda</td>
+            <td>sda</td>
+            <td>sda</td>
           </tr>
 
-          <tr>
-            <th>Nama</th>
-            <th>NIK</th>
-            <th>JK</th>
-            <th>No KK</th>
-            <th>Tempat lahir</th>
-            <th>Tanggal lahir</th>
-            <th>Agama</th>
-            <th>Pendidikan</th>
-            <th>Pekerjaan</th>
-            <th>Status kawin</th>
-            <th>Status dlm keluarga</th>
-            <th>Kewarganegaraan</th>
-            <th>No paspor</th>
-            <th>No kitab</th>
-            <th>Nama Ayah</th>
-            <th>Nama Ibu</th>
-            <th>Ket</th>
-          </tr><tr>
-            <th>Nama</th>
-            <th>NIK</th>
-            <th>JK</th>
-            <th>No KK</th>
-            <th>Tempat lahir</th>
-            <th>Tanggal lahir</th>
-            <th>Agama</th>
-            <th>Pendidikan</th>
-            <th>Pekerjaan</th>
-            <th>Status kawin</th>
-            <th>Status dlm keluarga</th>
-            <th>Kewarganegaraan</th>
-            <th>No paspor</th>
-            <th>No kitab</th>
-            <th>Nama Ayah</th>
-            <th>Nama Ibu</th>
-            <th>Ket</th>
-          </tr>
-          <tr>
-            <th>Nama</th>
-            <th>NIK</th>
-            <th>JK</th>
-            <th>No KK</th>
-            <th>Tempat lahir</th>
-            <th>Tanggal lahir</th>
-            <th>Agama</th>
-            <th>Pendidikan</th>
-            <th>Pekerjaan</th>
-            <th>Status kawin</th>
-            <th>Status dlm keluarga</th>
-            <th>Kewarganegaraan</th>
-            <th>No paspor</th>
-            <th>No kitab</th>
-            <th>Nama Ayah</th>
-            <th>Nama Ibu</th>
-            <th>Ket</th>
-          </tr>
         </tbody>
       </table>
 </template>
@@ -109,43 +86,44 @@ export default {
   name: 'individuTable',
   data(){
     return {
-      showInputData: true,
+      showInputData: false,
       inputData: {
         nama: '',
         nik: '',
-        jenis_kelamin: '',
-        no_kk: '',
-        tempat_lahir: '',
-        tanggal_lahir: new Date,
+        jenisKelamin: '',
+        noKk: '',
+        tempatLahir: '',
+        tanggalLahir: new Date,
         agama: '',
         pendidikan: '',
         pekerjaan: '',
-        status_kawin: '',
-        status_dalam_keluarga: '',
+        statusKawin: '',
+        statusDalamKeluarga: '',
         kewarganegaraan: '',
-        no_paspor: '',
-        no_kitab: '',
-        nama_ayah: '',
-        nama_ibu: '',
+        noPaspor: '',
+        noKitab: '',
+        namaAyah: '',
+        namaIbu: '',
         keterangan: '',
-      }
+      },
+      isEditData: false
     }
   },
   mounted(){
     this.$root.$on('addItem', () => {
       this.showInputData = true
     })
+  },
+  methods: {
+    addIndividu(){
+      
+    }
   }
 }
 </script>
 
 <style lang="scss">
-  table{
-    position: relative;
-    z-index: 1;
-  }
-
-  .inputdata td{
-    padding: 1.6rem 2rem;
-  }
+.individuTable{
+  width: 400%;
+}
 </style>

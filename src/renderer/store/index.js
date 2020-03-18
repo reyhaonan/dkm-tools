@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as Cookies from 'js-cookie';
 import { createPersistedState } from 'vuex-electron'
-
+import axios from 'axios'
 import modules from './modules'
 
 Vue.use(Vuex)
@@ -20,7 +20,8 @@ export default new Vuex.Store({
     auth: {
       username: '',
       password: ''
-    }
+    },
+    KK: undefined
   },
   mutations:{
     login(state, payload){
@@ -32,6 +33,9 @@ export default new Vuex.Store({
       state.isAuthenticated = false
       state.auth.username = ''
       state.auth.password = ''
+    },
+    fetchKk(state,payload){
+      state.KK = payload
     }
   },
   actions: {
@@ -40,6 +44,12 @@ export default new Vuex.Store({
     },
     logout({commit}){
       commit('logout')
+    },
+    fetchKk({commit}){
+      axios.get('http://localhost:30258/vuex/kk')
+        .then(res => {
+          commit('fetchKk', res.data)
+        })
     }
   }
 })
