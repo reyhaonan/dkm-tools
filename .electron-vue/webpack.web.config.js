@@ -39,7 +39,28 @@ let webConfig = {
       },
       {
         test: /\.less$/,
-        use: ['vue-style-loader', 'css-loader', 'less-loader']
+        include: /node_modules/,
+        use: [
+          {
+            loader:'vue-style-loader'
+          },
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              modifyVars: {
+                'primary-color': '#45B161',
+                'link-color': '#45B161',
+                'border-radius-base': '8px',
+              },
+              javascriptEnabled: true,
+            },
+          }],
       },
       {
         test: /\.css$/,

@@ -1,6 +1,7 @@
 <template>
   <main>
     <ViewNavbar/>
+    <a-button type="primary">Primary</a-button> 
   </main>
 </template>
 

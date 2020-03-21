@@ -15,16 +15,13 @@ $chateauGreen: #45B161;
 
 @import "./Jost-400-Book.ttf";
 @import "./Jost-500-Medium.ttf";
-@import "~material-design-icons/iconfont/material-icons.css";
 @import '~vue-context/src/sass/vue-context';
-
 
 
 *{
   outline: none;
   box-sizing: border-box;
   margin: 0;padding: 0;
-  font-family: 'Jost*','Segoe UI', Verdana, Geneva, Tahoma, sans-serif;
   transition: all .2s ease;
 
   /* width */
@@ -57,7 +54,7 @@ $chateauGreen: #45B161;
 }
 
 body{
-  background-color: $whiteLilac;
+  background-color: $whiteLilac !important;
   padding: 2rem;
   height: 100vh;
   overflow: hidden;
@@ -66,6 +63,7 @@ body{
 i{
   transition: none;
 }
+
 
 //32
 h1, .h1{
@@ -253,3 +251,4 @@ h6, .h6{
   transform: translate(-50%,-50%);
   padding: 2rem;
 }
+

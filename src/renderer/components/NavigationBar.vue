@@ -5,14 +5,14 @@
       <span class="navigation__brand__name text-dovegray h4">
         DKM Master
       </span>
-      <i class="navigation__brand__more material-icons text-cadetblue" @mouseover.prevent="$refs.menu.open">more_horiz</i>
+      <a-icon type="ellipsis" class="navigation__brand__more" @mouseover.prevent="$refs.menu.open"/>
     </div>
 
     <div class="navigation__routes">
-      <router-link to="/beranda" class="navigation__routes__link"><i class="material-icons">home</i>Beranda</router-link>
-      <router-link to="/data" class="navigation__routes__link"><i class="material-icons">folder</i>Data warga</router-link>
-      <router-link to="/test" class="navigation__routes__link"><i class="material-icons">collections</i>Galeri</router-link>
-      <a class="navigation__routes__link pointer"><i class="material-icons">exit_to_app</i>Logout</a>
+      <router-link to="/beranda" class="navigation__routes__link"><a-icon type="home" theme="filled"/>Beranda</router-link>
+      <router-link to="/data" class="navigation__routes__link"><a-icon type="folder" theme="filled"/>Data warga</router-link>
+      <router-link to="/test" class="navigation__routes__link"><a-icon type="camera" theme="filled"/>Galeri</router-link>
+      <a class="navigation__routes__link pointer" @click.prevent="logout"><a-icon type="logout" />Logout</a>
     </div>
 
     <VueContext ref="menu">
@@ -47,9 +47,6 @@ export default {
     logout(){
       this.$store.dispatch('logout')
       this.$router.push('/')
-    },
-    onClick(event){
-
     },
     openLinks(url){
       shell.openExternal(url)
@@ -97,15 +94,24 @@ export default {
         text-decoration: none;
         margin: .5rem 0;
         display: flex;
+
+        &:hover{
+          color: $cadetBlue;
+        }
       }
 
       .router-link-exact-active{
         @extend .text-dovegray;
+
+        &:hover{
+          color: $doveGray
+        }
       }
 
-      .material-icons{
+      .anticon{
         font-size: 1rem;
         margin: margin($left:1.5rem,$right:1rem);
+        transition: none !important;
       }
     }
   }

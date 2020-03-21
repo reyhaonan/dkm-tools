@@ -1,15 +1,27 @@
 <template>
   <nav class="viewnav">
-    <i class="searchbutton material-icons pointer text-dovegray h3" v-tooltip.bottom-center="'Cari data'">search</i>
+    <a-icon type="search" class="searchbutton " v-tooltip.bottom-center="'Cari data'"/>
     <span class="viewnav__name h3 text-dovegray">{{ $route.name }}</span>
-    <i class="addbutton material-icons pointer text-dovegray h3" v-tooltip.bottom-center="'Tambah data'" @click="$root.$emit('addItem')">add</i>
-    <i class="refreshbutton material-icons pointer text-dovegray h3" v-tooltip.bottom-center="'Refresh halaman'" @click="$forceUpdate()">refresh</i>
+    <a-icon type="plus" class="addbutton pointer" v-tooltip.bottom-center="'Tambah data'" @click="addItem"/>
   </nav>
 </template>
 
 <script>
 export default {
- name: 'ViewNavbar'
+ name: 'ViewNavbar',
+ data(){
+   return {
+     tabs: 1
+   }
+ },
+ mounted(){
+   this.$root.$on('changeTabs',tabs => this.tabs = tabs)
+ },
+ methods: {
+   addItem(){
+     this.$root.$emit('addItemToTabs', this.tabs)
+   }
+ }
 }
 </script>
 
@@ -45,10 +57,7 @@ export default {
       margin: margin($left:0);
     }
     .addbutton{
-      margin: margin($right:1rem);
-    }
-    .refreshbutton{
-      margin: margin($right:0,$left:0);
+      margin: margin($right:0);
     }
   }
 </style>

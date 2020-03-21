@@ -1,7 +1,7 @@
 <template>
   <main class="loginView">
     <div class="m-auto">
-      <form @submit.prevent="login" class="loginform">
+      <!-- <form @submit.prevent="login" class="loginform">
         <h2 class="text-dovegray">Login</h2>
         <div class="loginform__errorcard rounded h5 text-white" v-show="error">
           <i class="material-icons h4">error_outline</i>
@@ -11,7 +11,37 @@
         <input class="loginform__field textform h4 rounded" type="text" v-model="username" placeholder="Username" autofocus>
         <input class="loginform__field textform h4 rounded" type="password" v-model="password" placeholder="Password">
         <button type="submit" class="loginform__button bg-chateaugreen rounded text-bold text-white pointer">Login</button>
-      </form>
+      </form> -->
+      <a-form layout="inline" class="loginform" @submit.prevent="login">
+        <a-form-item 
+          :validate-status="usernameError?'error': ''"
+          :help="usernameError"
+        >
+          <a-input
+            placeholder="Username"
+            v-model="username"
+          >
+            <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" />
+          </a-input>
+        </a-form-item>
+        <a-form-item
+          :validate-status="passwordError? 'error': ''"
+          :help="passwordError"
+        >
+          <a-input
+            type="password"
+            placeholder="Password"
+            v-model="password"
+          >
+            <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)" />
+          </a-input>
+        </a-form-item>
+        <a-form-item>
+          <a-button type="primary" html-type="submit" block>
+            Log in
+          </a-button>
+        </a-form-item>
+      </a-form>
       
       <img src="@/assets/decoration.svg" draggable="false" class="deco">
     </div>
@@ -26,21 +56,23 @@
         username: '',
         password: '',
         data: '',
-        error: ''
+        usernameError: '',
+        passwordError: ''
       }
     },
     methods: {
       login(){
         if (this.username == '' && this.password == '') {
-          this.error = "Isi kolom username dan password"
+          this.usernameError = "Mohon isi kolom username"
+          this.passwordError = "Mohon isi kolom password"
         }
 
         else if(this.username == '') {
-          this.error = "Mohon isi kolom username"
+          this.usernameError = "Mohon isi kolom username"
         }
 
         else if(this.username !== '' && this.password == '') {
-          this.error = "Mohon isi kolom password"
+          this.passwordError = "Mohon isi kolom password"
         }
         
         else{
@@ -56,7 +88,10 @@
             this.$router.push('/beranda')
             
           })
-          .catch(err => this.error = err.response.data)
+          .catch(err => {
+            this.usernameError = err.response.data == 'Username tidak ditemukan'? err.response.data : ''
+            this.passwordError = err.response.data == 'Password salah'? err.response.data : ''
+          })
         }
       },
       resetApp(){
@@ -82,8 +117,6 @@
 
   .loginform{
     position: relative;
-    display: flex;
-    flex-direction: column;
     z-index: 2;
 
     &__field{

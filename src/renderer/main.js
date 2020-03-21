@@ -5,6 +5,10 @@ import router from './router'
 import store from './store'
 import VCalendar from 'v-calendar'
 import VTooltip from 'v-tooltip'
+import Antd from 'ant-design-vue'
+import 'ant-design-vue/dist/antd.less';
+Vue.use(Antd);
+
 
 
 Vue.use(VTooltip)
