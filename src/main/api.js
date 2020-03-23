@@ -3,7 +3,7 @@ import Sequelize from 'sequelize'
 import cors from 'cors'
 import bcrypt from 'bcryptjs'
 import firstRun from 'electron-first-run'
-
+const route = express()
 const bodyParser = require('body-parser')
 const Op = Sequelize.Op
 const sequelize = new Sequelize({
@@ -17,6 +17,9 @@ const primaryKey = {
     defaultValue: Sequelize.UUIDV4,
     autoIncrement: false
 }
+
+
+//#region MODEL DECLARATION
 
 const KK = sequelize.define('kartukeluarga',{
     id: primaryKey,
@@ -53,6 +56,12 @@ const Individu =  sequelize.define('individu',{
     ket: Sequelize.TEXT
 })
 
+const Todos = sequelize.define('todo',{
+    id: primaryKey,
+    description: Sequelize.TEXT,
+    dates: Sequelize.DATE
+})
+
 const Users = sequelize.define('users', {
     id: primaryKey,
     username: Sequelize.TEXT,
@@ -84,9 +93,10 @@ sequelize.sync().then(() => {
 
 )
 
-const route = express()
+//#endregion
 
-//Cross origin site request limiting
+
+//#region EXPRESS CONFIG
 var whitelist = ['http://localhost:9080',`file://`]
 const corsConfig = {
     origin: function (origin, callback) {
@@ -101,6 +111,8 @@ const corsConfig = {
 route.use(bodyParser.urlencoded({ extended: true }));
 route.use(bodyParser.json());
 route.use(cors(corsConfig))
+
+//#endregion
 
 //Applications
 route.delete('/reset',(req, res) => {
@@ -130,6 +142,8 @@ route.post('/login', async (req, res) => {
 
 })
 
+
+//#region iNDIVIDU
 //GET INDIVIDU
 route.get('/individu/:pagesize/:page', async (req, res) => {
     let page = parseInt(req.params.page)
@@ -163,6 +177,7 @@ route.get('/individu/:pagesize/:page', async (req, res) => {
     })
 })
 
+//SEARCH INDIVIDU
 route.get('/individu/:pagesize/:page/:searchQuery', async (req, res) => {
     let searchQuery = req.params.searchQuery
     let page = parseInt(req.params.page)
@@ -280,8 +295,10 @@ route.put('/individu', (req, res) => {
         res.json('Success')
     })
 })
+//#endregion
 
 
+//#region KARTU KELUARGA
 
 //GET KK
 route.get('/kk/:pagesize/:page', async (req, res) => {
@@ -410,8 +427,30 @@ route.get('/kk/:pagesize/:page/:searchQuery', async (req, res) => {
     })
 })
 
+//#endregion    
+
+//#region TODOS
+//GET TODOS
+route.get('/todos', async (req, res) => {
+    const todos = await Todos.findAll()
+
+    res.json(todos)
+})
 
 
+//CREATE TODOS
+route.post('/todos', async (req, res) => {
+    Todos.create({
+        ...req.body
+    }).then(() => res.json('success'))
+})
+
+route.delete('/todos/:id', async (req,res) => {
+    Todos.destroy({where: {
+        id: req.params.id
+    }}).then(() => res.json('success'))
+})
+//#endregion
 
 
 

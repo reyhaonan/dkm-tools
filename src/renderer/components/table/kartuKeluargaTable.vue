@@ -260,7 +260,10 @@ export default {
     },
     deleteKk(id){
       this.$http.put('/kk', {id})
-      .then(() => this.fetchKk(1))
+      .then(() => {
+        this.fetchKk(1)
+        this.$root.$emit('KKUpdate')
+      })
       this.editId = ''
     },
     fetchKk(page, searchQuery = ''){

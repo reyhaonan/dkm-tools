@@ -335,6 +335,7 @@ export default {
     this.$root.$on('onSearch', searchQuery => {
       this.fetchIndividu(1,searchQuery)
     })
+    this.$root.$on('KKUpdate', () => this.fetchIndividu(1))
 
     this.$root.$on('onReset', () => {
       this.isSearch = true
