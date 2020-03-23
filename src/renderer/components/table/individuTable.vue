@@ -34,7 +34,7 @@
       </template>
       
       <template slot="kewarganegaraan" slot-scope="text, record">
-        <a-select v-if="record.editable" :defaultValue="record.kewarganegaraan" style="width: 120px" @change="e => handleChange(e, record.id, 'kewarganegaraan')">
+        <a-select v-if="record.editable" :defaultValue="record.kewarganegaraan" style="width: 120px" @select="e => handleChange(e, record.id, 'kewarganegaraan')">
           <a-select-option value="WNI">WNI</a-select-option>
           <a-select-option value="WNA">WNA</a-select-option>
         </a-select>
@@ -43,7 +43,7 @@
       </template>
 
       <template slot="agama" slot-scope="text, record">
-        <a-select v-if="record.editable" :defaultValue="record.agama" style="width: 120px" @change="e => handleChange(e, record.id, 'agama')">
+        <a-select v-if="record.editable" :defaultValue="record.agama" style="width: 120px" @select="e => handleChange(e, record.id, 'agama')">
           <a-select-option value="Islam">Islam</a-select-option>
           <a-select-option value="Kristen">Kristen</a-select-option>
           <a-select-option value="Katolik">Katolik</a-select-option>
@@ -55,7 +55,7 @@
         <template v-else>{{text}}</template>
       </template>
       <template slot="noKk" slot-scope="text, record">
-        <a-select v-if="record.editable" :defaultValue="record.kartukeluargaId" style="width: 120px" @change="e => handleChange(e.target.value, record.id, 'kartuKeluargaId')">
+        <a-select v-if="record.editable" :defaultValue="record.kartukeluargaId" style="width: 120px" @select="e => handleChange(e, record.id, 'kartukeluargaId')">
           <a-select-option :value="kkc.id" v-for="kkc in $store.state.KK" :key="kkc.id">{{ kkc.noKk }}</a-select-option>
         </a-select>
 
@@ -331,6 +331,16 @@ export default {
     this.$root.$on('addItemToTabs', tabs => {
       if(tabs == 2)this.showIndividuModal = true
     })
+
+    this.$root.$on('onSearch', searchQuery => {
+      this.fetchIndividu(1,searchQuery)
+    })
+
+    this.$root.$on('onReset', () => {
+      this.isSearch = true
+      this.fetchIndividu(1)
+    })
+
     this.fetchIndividu(1)
   },
   computed: {
@@ -371,19 +381,25 @@ export default {
       .then(() => this.fetchIndividu(1))
       this.editId = ''
     },
-    fetchIndividu(page){
+    fetchIndividu(page, searchQuery = ''){
       let url = `/individu/${this.pagesize}/${page}`
 
       if(page){
-        this.$http.get(url)
-        .then(res => {
-          this.individu = res.data.data
-          this.cacheData = res.data.data
-          this.links = {...res.data.links}
-        })
-        .catch(err => console.error(err))
-      }else{
-        return
+        if(!searchQuery){
+          this.$http.get(url)
+          .then(res => {
+            this.individu = res.data.data
+            this.cacheData = res.data.data
+            this.links = {...res.data.links}
+          })
+        }else{
+          this.$http.get(`${url}/${searchQuery}`)
+          .then(res => {
+            this.individu = res.data.data
+            this.cacheData = res.data.data
+            this.links = {...res.data.links}
+          })
+        }
       }
     },
     handleChange(value, key, column) {

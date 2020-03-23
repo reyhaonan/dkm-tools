@@ -215,6 +215,15 @@ export default {
       if(tabs == 1)this.showKkModal = true
     })
 
+    this.$root.$on('onSearch', searchQuery => {
+      this.fetchKk(1,searchQuery)
+    })
+
+    this.$root.$on('onReset', () => {
+      this.isSearch = true
+      this.fetchKk(1)
+    })
+
 
     this.fetchKk(1)
   },
@@ -254,19 +263,27 @@ export default {
       .then(() => this.fetchKk(1))
       this.editId = ''
     },
-    fetchKk(page){
+    fetchKk(page, searchQuery = ''){
       let url = `/kk/${this.pagesize}/${page}`
 
       if(page){
-        this.$http.get(url)
-        .then(res => {
-          this.kk = res.data.data
-          this.cacheData = res.data.data
-          this.links = {...res.data.links}
-        })
-        .catch(err => console.error(err))
-      }else{
-        return
+        if(!searchQuery){
+          this.$http.get(url)
+          .then(res => {
+            this.kk = res.data.data
+            this.cacheData = res.data.data
+            this.links = {...res.data.links}
+          })
+          .catch(err => console.error(err))
+        }else{
+          this.$http.get(`${url}/${searchQuery}`)
+          .then(res => {
+            this.kk = res.data.data
+            this.cacheData = res.data.data
+            this.links = {...res.data.links}
+          })
+          .catch(err => console.error(err))
+        }
       }
     },
     handleChange(value, key, column) {

@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs'
 import firstRun from 'electron-first-run'
 
 const bodyParser = require('body-parser')
-
+const Op = Sequelize.Op
 const sequelize = new Sequelize({
   dialect: 'sqlite',
   storage: './consequences.sqlite'
@@ -130,7 +130,7 @@ route.post('/login', async (req, res) => {
 
 })
 
-//Individu
+//GET INDIVIDU
 route.get('/individu/:pagesize/:page', async (req, res) => {
     let page = parseInt(req.params.page)
     let pagesize = parseInt(req.params.pagesize)
@@ -163,7 +163,59 @@ route.get('/individu/:pagesize/:page', async (req, res) => {
     })
 })
 
+route.get('/individu/:pagesize/:page/:searchQuery', async (req, res) => {
+    let searchQuery = req.params.searchQuery
+    let page = parseInt(req.params.page)
+    let pagesize = parseInt(req.params.pagesize)
 
+    const individu = await Individu.findAll({
+        limit: pagesize,
+        offset: pagesize * (page - 1),
+        include: [{
+            model: KK,
+            attributes: ['id', 'noKk']
+            
+        }],
+        order: [['createdAt', 'ASC']],
+        where: {[Op.or]: [
+            {
+              nama: {
+                [Op.like]: `%${searchQuery}%`
+              }
+            },
+            {
+              nik: {
+                [Op.like]: `%${searchQuery}%`
+              }
+            },
+            {
+              noPaspor: {
+                [Op.like]: `%${searchQuery}%`
+              }
+            },
+            {
+              agama: {
+                [Op.like]: `%${searchQuery}%`
+              }
+            }
+        ]}
+    })
+
+    const jmlIndividu = await Individu.count()
+
+    const next = page + 1
+    const prev = page - 1
+    const last = Math.ceil(jmlIndividu / pagesize)
+    res.json({
+        data: individu,
+        links:{    
+            nextPage: next <= last? next: null,
+            prevPage: prev > 0?prev:null,
+            currentPage: page,
+            lastPage: last
+        }
+    })
+})
 
 //CREATE INDIVIDU
 route.post('/individu', async (req,res) => {
@@ -190,6 +242,7 @@ route.post('/individu', async (req,res) => {
     }).catch(err => res.status(404).json(err))
 })
 
+//EDIT INDIVIDU
 route.post('/editIndividu', async (req, res) => {
     Individu.update({
         nama: req.body.form.nama,
@@ -217,6 +270,7 @@ route.post('/editIndividu', async (req, res) => {
     .then(() => res.json("Success"))
 })
 
+//DELETE INDIVIDU
 route.put('/individu', (req, res) => {
     Individu.destroy({
         where: {
@@ -229,7 +283,7 @@ route.put('/individu', (req, res) => {
 
 
 
-//KK
+//GET KK
 route.get('/kk/:pagesize/:page', async (req, res) => {
     let page = parseInt(req.params.page)
     let pagesize = parseInt(req.params.pagesize)
@@ -260,7 +314,7 @@ route.get('/kk/:pagesize/:page', async (req, res) => {
     })
 })
 
-
+//CREATE KK
 route.post('/kk', async (req,res) => {
     KK.create({
         ...req.body
@@ -268,7 +322,7 @@ route.post('/kk', async (req,res) => {
     .catch(() => res.status(403).json("Error"))
 })
 
-
+//EDIT KK
 route.post('/editkk', async (req, res) => {
 
     KK.update({
@@ -291,7 +345,7 @@ route.post('/editkk', async (req, res) => {
     .then(() => res.json("Success"))
 })
 
-
+//DELETE KK
 route.put('/kk', (req, res) => {
     KK.destroy({
         where: {
@@ -301,6 +355,72 @@ route.put('/kk', (req, res) => {
         res.json('Success')
     })
 })
+
+//SEARCH KK
+route.get('/kk/:pagesize/:page/:searchQuery', async (req, res) => {
+    let searchQuery = req.params.searchQuery
+    let page = parseInt(req.params.page)
+    let pagesize = parseInt(req.params.pagesize)
+
+
+    const kk = await KK.findAll({
+        limit: pagesize,
+        offset: pagesize * (page - 1),
+        include: [{
+            model: Individu,
+            attributes: ['id', 'nama']
+        }],
+        where: {[Op.or]: [
+            {
+              noKk: {
+                [Op.like]: `%${searchQuery}%`
+              }
+            },
+            {
+              kepalaKeluarga: {
+                [Op.like]: `%${searchQuery}%`
+              }
+            },
+            {
+              alamat: {
+                [Op.like]: `%${searchQuery}%`
+              }
+            },
+            {
+              desa: {
+                [Op.like]: `%${searchQuery}%`
+              }
+            }
+          ]}
+    }).catch(err => res.json(err))
+
+    const jmlKk = await KK.count()
+
+    const next = page + 1
+    const prev = page - 1
+    const last = Math.ceil(jmlKk / pagesize)
+    res.json({
+        data: kk,
+        links:{    
+            nextPage: next <= last? next: null,
+            prevPage: prev > 0?prev:null,
+            currentPage: page,
+            lastPage: last
+        }
+    })
+})
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //Vuex listing
