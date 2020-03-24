@@ -9,18 +9,20 @@
         </div>
           <popover-row
             v-for="attr in attributes"
-            :key="attr.id"
+            :key="attr.customData.id"
             :attribute="attr">
-            <span>
-              {{ attr.customData.description }} 
+            <span v-if="attr.customData.id != 1" class="pointer">
               <a-popconfirm title="Hapus jadwal ini?" @confirm="() => deleteTodos(attr.customData.id)">
-                <a-icon type="delete" theme="filled" style="margin-left:auto" class="pointer" v-if="attr.customData.description"/>
+                {{attr.customData.description}}
+                <!-- <a-icon type="delete" theme="filled" class="pointer"/> -->
               </a-popconfirm>
             </span>
             
           </popover-row>
-            <span>
-               <input type="text" class="inputTodo" placeholder="Jadwal baru..." v-model="addTodo" /><a-icon v-show="addTodo" type="check" class="pointer" @click="saveTodos"/>
+            <span >
+              <a-input size="small" class="inputTodo" placeholder="Jadwal baru..." v-model="addTodo" style="margin-top:.5rem" @pressEnter="saveTodos">
+                <a-icon v-show="addTodo" type="check" class="pointer" @click="saveTodos" slot="suffix"/>
+              </a-input>
             </span>
       </div>
     </vc-calendar>
@@ -37,7 +39,7 @@ export default {
   name: 'DKMMaster',
   data(){
     return {
-      selectedDay: {},
+      selectedDate: undefined,
       addTodo:'',
       todos: []
     }
@@ -47,7 +49,7 @@ export default {
       alert(id)
     },
     saveTodos(){
-      this.$http.post('/todos',{description: this.addTodo, dates: this.selectedDay.dates})
+      this.$http.post('/todos',{description: this.addTodo, dates: this.selectedDate})
       .then(() => {
         this.fetchTodos()
         this.addTodo = ''
@@ -62,35 +64,25 @@ export default {
       .then(() => this.fetchTodos())
     },
     daymouseenter(e){
-      // console.log(e);
-      
-      if(!e.attributes){
-        this.selectedDay = {
-          dates: new Date(e.id),
-          popover: {
-            description: 'lol',
-            placement: 'bottom',
-            visibility: 'click',
-            isInteractive: true
-          },
-          customData: {
-            id: 'input',
-            date: new Date(e.id)
-          }
-        }
-      }
-    }
+        this.selectedDate = new Date(e.id)
+    },
   },
   computed: {
     attributes() {
       return [
         // Attributes for todos
-        this.selectedDay,
+        {
+          dates: {weekdays: [1,2,3,4,5,6,7]},
+          popover: {
+            visibility: 'click'
+          },
+          customData:{id: '1'}
+        },
         ...this.todos.map(todo => ({
           dates: todo.dates,
           dot: 'green',
           popover: {
-            label: todo.description,
+            description: todo.description,
             visibility: 'click',
             isInteractive: true
           },
@@ -138,11 +130,13 @@ export default {
 
 #calendars{
   max-height: 270px;
+  z-index: 988;
 }
 
 .inputTodo{
   background: none !important;
   border: none !important;
+  color: white !important;
 }
 
 .weekday-position-7{
