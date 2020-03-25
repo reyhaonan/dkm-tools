@@ -174,7 +174,7 @@
 <script>
 import VueContext from '@/components/VueContext'
 import moment from 'moment';
-import 'moment/locale/id';
+moment.locale('id')
 
 export default {
   name: 'individuTable',
@@ -420,12 +420,14 @@ export default {
       }
     },
     handleSubmit() {
-      this.$http.post('/individu',{...this.form})
-      .then(() => {
-        this.fetchIndividu(1)
-        this.showIndividuModal = false
-        this.form = {}
-      })
+      if(this.form.kartukeluargaId){
+        this.$http.post('/individu',{...this.form})
+        .then(() => {
+          this.fetchIndividu(1)
+          this.showIndividuModal = false
+          this.form = {}
+        })
+      }
     },
     cancel(key) {
       const newData = [...this.individu];

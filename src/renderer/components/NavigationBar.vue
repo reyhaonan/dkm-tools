@@ -5,33 +5,30 @@
       <span class="navigation__brand__name text-dovegray h4">
         DKM Master
       </span>
-      <a-icon type="ellipsis" class="navigation__brand__more" @mouseover.prevent="$refs.menu.open"/>
+      <a-dropdown :trigger="['click']">
+        <a-icon type="ellipsis" class="navigation__brand__more" @click="e => e.preventDefault()"/>
+        <a-menu slot="overlay">
+          <a-menu-item key="0">
+            <a @click.prevent="reset">Reset aplikasi</a>
+          </a-menu-item>
+          <a-menu-item key="1">
+            <a @click.prevent="openLinks('https://github.com/reyhaonan/dkm/issues/new')">Laporkan kendala</a>
+          </a-menu-item>
+          <a-menu-item key="3">
+            <a @click.prevent="openLinks('https://github.com/reyhaonan/dkm')">Tentang aplikasi</a>
+          </a-menu-item>
+        </a-menu>
+      </a-dropdown>
     </div>
 
     <div class="navigation__routes">
       <router-link to="/beranda" class="navigation__routes__link"><a-icon type="home" theme="filled"/>Beranda</router-link>
       <router-link to="/data" class="navigation__routes__link"><a-icon type="folder" theme="filled"/>Data warga</router-link>
-      <router-link to="/test" class="navigation__routes__link"><a-icon type="camera" theme="filled"/>Galeri</router-link>
+      <router-link to="/galeri" class="navigation__routes__link"><a-icon type="camera" theme="filled"/>Galeri</router-link>
+      <router-link to="/pengaturan" class="navigation__routes__link"><a-icon type="setting" theme="filled"/>Pengaturan</router-link>
       <a class="navigation__routes__link pointer" @click.prevent="logout"><a-icon type="logout" />Logout</a>
     </div>
 
-    <VueContext ref="menu">
-            <li>
-                <a @click.prevent="reset">
-                    Reset aplikasi
-                </a>
-            </li>
-            <li>
-                <a @click.prevent="openLinks('https://github.com/reyhaonan/dkm/issues/new')">
-                    Laporkan kendala
-                </a>
-            </li>
-            <li>
-                <a @click.prevent="openLinks('https://github.com/reyhaonan/dkm')">
-                    Tentang
-                </a>
-            </li>            
-    </VueContext>
   </nav>
 </template>
 

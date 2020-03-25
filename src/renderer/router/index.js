@@ -25,9 +25,14 @@ const router = new Router({
       component: require('@/views/DataWarga').default
     },
     {
-      path: '/test',
-      name: 'test',
-      component: require('@/views/TestPage').default
+      path: '/galeri',
+      name: 'Galeri',
+      component: require('@/views/Galeri').default
+    },
+    {
+      path: '/pengaturan',
+      name: 'Pengaturan',
+      component: require('@/views/Pengaturan').default
     },
     {
       path: '*',

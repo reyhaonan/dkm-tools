@@ -3,7 +3,9 @@ import Sequelize from 'sequelize'
 import cors from 'cors'
 import bcrypt from 'bcryptjs'
 import firstRun from 'electron-first-run'
+import fileUpload from 'express-fileupload'
 const route = express()
+const fs = require('fs')
 const bodyParser = require('body-parser')
 const Op = Sequelize.Op
 const sequelize = new Sequelize({
@@ -75,42 +77,49 @@ const Users = sequelize.define('users', {
     }
 })
 
+const Galeri = sequelize.define('galeri', {
+    id: primaryKey,
+    path: Sequelize.TEXT
+})
+
 Individu.belongsTo(KK, {onDelete: 'CASCADE'})
 KK.hasMany(Individu)
 
 
     
-sequelize.sync().then(() => {
-    let isFirstRun = firstRun()
-        if(isFirstRun){
+sequelize.sync()
+.then(() => {
+    // let isFirstRun = firstRun()
+        // if(isFirstRun){
             return Users.create({
                 username: 's',
                 password: 's'
             })
-        }
-        
+        // }   
     }
-
 )
 
 //#endregion
 
 
 //#region EXPRESS CONFIG
-var whitelist = ['http://localhost:9080',`file://`]
+var whitelist = ['http://localhost:9080','file://']
 const corsConfig = {
     origin: function (origin, callback) {
         if (whitelist.indexOf(origin) !== -1) {
           callback(null, true)
         } else {
-          callback('nope')
+          callback(`${origin} is not allowed`)
         }
       }
 }
-
+route.use(fileUpload({
+    createParentPath: true
+}));
 route.use(bodyParser.urlencoded({ extended: true }));
 route.use(bodyParser.json());
-route.use(cors(corsConfig))
+// route.use(cors(corsConfig))
+route.use(cors())
 
 //#endregion
 
@@ -142,6 +151,25 @@ route.post('/login', async (req, res) => {
 
 })
 
+
+//GET ADMIN
+route.get('/settings/admin', async (req, res) => {
+    let user = await Users.findAll()
+    res.json(user)
+})
+
+route.post('/user', (req, res) => {
+    Users.create({
+        ...req.body
+    })
+    .then(() => res.json('Success'))
+})
+
+//DELETE ADMIN
+route.delete('/settings/:id', (req, res) => {
+    Users.destroy({where: {id: req.params.id}})
+    .then(() => res.json('Success'))
+})
 
 //#region iNDIVIDU
 //GET INDIVIDU
@@ -445,6 +473,7 @@ route.post('/todos', async (req, res) => {
     }).then(() => res.json('success'))
 })
 
+//DELETE TODOS
 route.delete('/todos/:id', async (req,res) => {
     Todos.destroy({where: {
         id: req.params.id
@@ -453,12 +482,52 @@ route.delete('/todos/:id', async (req,res) => {
 //#endregion
 
 
+//#region FILE GALERI
+
+//GET GALERI
+route.get('/galeri', async (req, res) => {
+    const galeri = await Galeri.findAll({
+        order: [
+            // Will escape title and validate DESC against a list of valid direction parameters
+            ['createdAt', 'DESC'],
+        ]        
+    })
+    res.json(galeri)
+})
+
+//CREATE GALERI
+route.post('/upload', (req, res) => {
+    if(req.files.fileList.length){
+        req.files.fileList.forEach(value => {
+            let path = 'uploads/' + value.md5 + '.' + value.name.split('.').pop()
+            value.mv(path)
+            Galeri.create({
+                path
+            })
+        })
+    }else{
+        let path = 'uploads/' + req.files.fileList.md5 + '.' + req.files.fileList.name.split('.').pop()
+        req.files.fileList.mv(path)
+        Galeri.create({
+            path
+        })
+    }
+    res.json("Success")
+})
+
+route.put('/galeri', async(req, res) => {
+     
+    await Galeri.destroy({where: {
+        id: req.body.id
+    }})
+    let remaining = await Galeri.count({where: {path : req.body.path}})
+    if(!remaining) fs.unlink(req.body.path) 
+    res.json("Success")
+})
 
 
 
-
-
-
+//#endregion
 
 
 

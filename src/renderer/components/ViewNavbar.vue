@@ -10,7 +10,7 @@
     </a-popover>
     <a-icon type="close" v-show="searchQuery" class="reset pointer"  @click.prevent="reset"/>
     <span class="viewnav__name h3 text-dovegray">{{ $route.name }}</span>
-    <a-icon type="plus" class="addbutton pointer" v-tooltip.bottom-center="'Tambah data'" @click="addItem" v-if="$route.name == 'Data warga'"/>
+    <a-icon type="plus" class="addbutton pointer" v-tooltip.bottom-center="'Tambah data'" @click="addItem" v-if="$route.name == 'Data warga' || $route.name == 'Pengaturan'"/>
   </nav>
 </template>
 
@@ -48,7 +48,9 @@ export default {
 }
   .viewnav{
     height: 50px;
-    width: 100%;
+    width: calc(100% + 4rem); 
+    transform: translateX(-2rem);
+    padding: 0 2rem;
     display: flex;
     position: sticky;
     top: 0;
@@ -59,9 +61,10 @@ export default {
       content: '';
       position: absolute;
       height: 1px;
-      width: calc(100% + 4rem);
+      width: 100%;
       bottom: 0;
-      left: -2rem;
+      left: 50%;
+      transform: translateX(-50%);
       background: $whiteLilac;
     }
 

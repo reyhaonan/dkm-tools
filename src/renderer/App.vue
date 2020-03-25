@@ -33,7 +33,7 @@
 import NavigationBar from '@/components/Navigationbar'
 import PopoverRow from 'v-calendar/lib/components/popover-row.umd.min'
 import moment from 'moment';
-import 'moment/locale/id';
+moment.locale('id')
 
 export default {
   name: 'DKMMaster',
@@ -130,7 +130,7 @@ export default {
 
 #calendars{
   max-height: 270px;
-  z-index: 988;
+  // z-index: 988;
 }
 
 .inputTodo{
