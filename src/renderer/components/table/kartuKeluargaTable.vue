@@ -52,34 +52,34 @@
 
     <a-modal v-model="showKkModal" title="Tambah kartu keluarga baru" :footer="null" style="top: 36px;">
       <a-form :form="form" layout="horizontal" :label-col="{ span: 8 }" :wrapper-col="{ span: 12 }" @submit.prevent="handleSubmit">
-        <a-form-item label="Nomor KK">
-          <a-input v-model="form.noKk" />
+        <a-form-item label="Nomor KK" required>
+          <a-input v-model="form.noKk" required/>
         </a-form-item>
-        <a-form-item label="Nama kepala keluarga">
-          <a-input v-model="form.kepalaKeluarga" />
+        <a-form-item label="Nama kepala keluarga" required>
+          <a-input v-model="form.kepalaKeluarga"  required/>
         </a-form-item>
         <a-input-group>
-          <a-form-item label="RT" :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }">
-            <a-input v-model="form.rt" />
+          <a-form-item label="RT" :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }" required>
+            <a-input v-model="form.rt"  required/>
           </a-form-item>
-          <a-form-item label="RW" :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }">
-            <a-input v-model="form.rw" />
+          <a-form-item label="RW" :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }" required>
+            <a-input v-model="form.rw"  required/>
           </a-form-item>
         </a-input-group>
-        <a-form-item label="Kode pos">
-          <a-input v-model="form.kodePos" />
+        <a-form-item label="Kode pos" required>
+          <a-input v-model="form.kodePos" required />
         </a-form-item>
-        <a-form-item label="Desa">
-          <a-input v-model="form.desa" />
+        <a-form-item label="Desa" required>
+          <a-input v-model="form.desa" required />
         </a-form-item>
-        <a-form-item label="Kecamatan">
-          <a-input v-model="form.kecamatan" />
+        <a-form-item label="Kecamatan" required>
+          <a-input v-model="form.kecamatan" required />
         </a-form-item>
-        <a-form-item label="Kabupaten">
-          <a-input v-model="form.kabupaten" />
+        <a-form-item label="Kabupaten" required>
+          <a-input v-model="form.kabupaten" required />
         </a-form-item>
-        <a-form-item label="Provinsi">
-          <a-input v-model="form.provinsi" />
+        <a-form-item label="Provinsi" required>
+          <a-input v-model="form.provinsi" required />
         </a-form-item>
         <a-form-item label="Alamat">
           <a-textarea v-model="form.alamat" autoSize />

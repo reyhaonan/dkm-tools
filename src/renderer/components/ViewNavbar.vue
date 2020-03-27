@@ -56,6 +56,7 @@ export default {
     top: 0;
     z-index: 200;
     background: white;
+    margin-bottom: 2rem;
     
     &::after{
       content: '';

@@ -4,14 +4,24 @@ import cors from 'cors'
 import bcrypt from 'bcryptjs'
 import firstRun from 'electron-first-run'
 import fileUpload from 'express-fileupload'
-const route = express()
+import * as jetpack from 'fs-jetpack'
+import moment from 'moment'
 const fs = require('fs')
 const bodyParser = require('body-parser')
+const excel = require('node-excel-export')
+
+
+
+
+
+
+moment.locale('id')
 const Op = Sequelize.Op
 const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: './consequences.sqlite'
+    dialect: 'sqlite',
+    storage: './consequences.sqlite'
 })
+const route = express()
 
 const primaryKey = {
     type: Sequelize.UUIDV4,
@@ -87,19 +97,19 @@ KK.hasMany(Individu)
 
 
     
+//#endregion
 sequelize.sync()
 .then(() => {
-    // let isFirstRun = firstRun()
-        // if(isFirstRun){
+    let isFirstRun = firstRun()
+        if(isFirstRun){
             return Users.create({
-                username: 's',
-                password: 's'
+                username: 'default_admin',
+                password: 'ARy#-k9DK7!NU27UHAjF6s7'
             })
-        // }   
+        }   
     }
 )
 
-//#endregion
 
 
 //#region EXPRESS CONFIG
@@ -127,6 +137,296 @@ route.use(cors())
 route.delete('/reset',(req, res) => {
     firstRun.clear()
     res.send('success')
+})
+
+route.get('/dashboard/data', async (req, res) => {
+    const jmlKeluarga = await KK.count()
+    const jmlWarga = await Individu.count()
+    const lakiLaki = await Individu.count({where: {jenisKelamin: 'Laki laki'}})
+    const perempuan = await Individu.count({where: {jenisKelamin: 'Perempuan'}})
+
+    const islam = await Individu.count({where: {agama: 'Islam'}})
+    const kristen = await Individu.count({where: {agama: 'Kristen'}})
+    const katolik = await Individu.count({where: {agama: 'Katolik'}})
+    const hindu = await Individu.count({where: {agama: 'Hindu'}})
+    const budha = await Individu.count({where: {agama: 'Budha'}})
+    const konghucu = await Individu.count({where: {agama: 'Konghucu'}})
+    const agama = [islam,kristen,katolik,hindu,budha,konghucu]
+    
+    res.json({
+        jmlKeluarga: jmlKeluarga? jmlKeluarga: 0,
+        jmlWarga: jmlWarga? jmlWarga: 0,
+        lakiLaki: lakiLaki? lakiLaki: 0,
+        perempuan: perempuan? perempuan: 0,
+        agama
+    })
+})
+
+route.post('/exportdatabase', (req, res) => {
+    jetpack.copy('./consequences.sqlite', req.body.path)
+    res.json(__dirname)
+})
+
+route.post('/exporttoexcel', async (req, res) => {
+
+    const styles = {
+        header: {
+          border:{
+            bottom:{ 
+              style: 'medium',
+            }
+          },
+          font: {
+            sz: 14,
+            bold: true,
+          }
+        },
+        cell: {
+            font: {
+                sz: 13,
+                bold: false,
+            },
+            border:{
+                bottom:{ 
+                    style: 'thin',
+                },
+                top:{ 
+                    style: 'thin',
+                },
+                left:{ 
+                    style: 'thin',
+                },
+                right:{ 
+                    style: 'thin',
+                },
+            }
+        }
+    };
+    
+    //Array of objects representing heading rows (very top)
+    const kk_heading = [
+    [{value: 'Laporan data kartu keluarga', style: {
+        font: {
+            sz: 22,
+            bold: true,
+        }
+        }}],
+    ];
+    const individu_heading = [
+    [{value: 'Laporan data warga', style: {
+        font: {
+            sz: 22,
+            bold: true,
+        }
+        }}],
+    ];
+    
+    //Here you specify the export structure
+    const kk_specification = {
+    noKk: {
+        displayName: 'Nomor KK',
+        headerStyle: styles.header,
+        cellStyle: styles.cell,
+        width: 140
+    },
+    kepalaKeluarga: {
+        displayName: 'Kepala Keluarga',
+        headerStyle: styles.header,
+        cellStyle: styles.cell,
+        width: 120
+    },
+    alamat: {
+        displayName: 'Alamat',
+        headerStyle: styles.header,
+        cellStyle: styles.cell,
+        width: 200
+    },
+    rt: {
+        displayName: 'RT',
+        headerStyle: styles.header,
+        cellStyle: styles.cell,
+        width: 30
+    },
+    rw: {
+        displayName: 'RW',
+        headerStyle: styles.header,
+        cellStyle: styles.cell,
+        width: 30
+    },
+    desa: {
+        displayName: 'Desa',
+        headerStyle: styles.header,
+        cellStyle: styles.cell,
+        width: 160
+    },
+    kecamatan: {
+        displayName: 'Kecamatan',
+        headerStyle: styles.header,
+        cellStyle: styles.cell,
+        width: 160
+    },
+    kabupaten: {
+        displayName: 'Kabupaten',
+        headerStyle: styles.header,
+        cellStyle: styles.cell,
+        width: 160
+    },
+    kodePos: {
+        displayName: 'Kode Pos',
+        headerStyle: styles.header,
+        cellStyle: styles.cell,
+        width: 80
+    },
+    provinsi: {
+        displayName: 'Provinsi',
+        headerStyle: styles.header,
+        cellStyle: styles.cell,
+        width: 160
+    },
+    ket: {
+        displayName: 'ket',
+        headerStyle: styles.header,
+        cellStyle: styles.cell,
+        width: 200
+    },
+    }
+
+    const individu_specification = {
+        nama: {
+            displayName: 'Nama',
+            headerStyle: styles.header,
+            cellStyle: styles.cell,
+            width: 200
+        },
+        nik: {
+            displayName: 'NIK',
+            headerStyle: styles.header,
+            cellStyle: styles.cell,
+            width: 160
+        },
+        noKk:{
+            displayName: 'nomor KK',
+            headerStyle: styles.header,
+            cellStyle: styles.cell,
+            width: 160
+        },
+        jenisKelamin: {
+            displayName: 'Jenis Kelamin',
+            headerStyle: styles.header,
+            cellStyle: styles.cell,
+            width: 100
+        },
+        tempatLahir: {
+            displayName: 'Tempat Lahir',
+            headerStyle: styles.header,
+            cellStyle: styles.cell,
+            width: 140
+        },
+        tanggalLahir: {
+            displayName: 'Tanggal Lahir',
+            headerStyle: styles.header,
+            cellStyle: styles.cell,
+            width: 160
+        },
+        agama: {
+            displayName: 'Agama',
+            headerStyle: styles.header,
+            cellStyle: styles.cell,
+            width: 120
+        },
+        pendidikan: {
+            displayName: 'Pendidikan',
+            headerStyle: styles.header,
+            cellStyle: styles.cell,
+            width: 140
+        },
+        pekerjaan: {
+            displayName: 'Pekerjaan',
+            headerStyle: styles.header,
+            cellStyle: styles.cell,
+            width: 140
+        },
+        statusKawin: {
+            displayName: 'Status Kawin',
+            headerStyle: styles.header,
+            cellStyle: styles.cell,
+            width: 140
+        },
+        statusDalamKeluarga: {
+            displayName: 'Status Dalam Keluarga',
+            headerStyle: styles.header,
+            cellStyle: styles.cell,
+            width: 140
+        },
+        kewarganegaraan: {
+            displayName: 'Kewarganegaraan',
+            headerStyle: styles.header,
+            cellStyle: styles.cell,
+            width: 100
+        },
+        noPaspor: {
+            displayName: 'no Paspor',
+            headerStyle: styles.header,
+            cellStyle: styles.cell,
+            width: 100
+        },
+        noKitab: {
+            displayName: 'no Kitab',
+            headerStyle: styles.header,
+            cellStyle: styles.cell,
+            width: 100
+        },
+        namaAyah: {
+            displayName: 'Nama Ayah',
+            headerStyle: styles.header,
+            cellStyle: styles.cell,
+            width: 160
+        },
+        namaIbu: {
+            displayName: 'Nama Ibu',
+            headerStyle: styles.header,
+            cellStyle: styles.cell,
+            width: 160
+        },
+        ket: {
+            displayName: 'ket',
+            headerStyle: styles.header,
+            cellStyle: styles.cell,
+            width: 200
+        },
+    }
+
+    const kk_dataset = await KK.findAll()
+    const individu_dataset = await Individu.findAll({include: [{
+        model: KK,
+        attributes: ['noKk']
+    }]})
+
+
+    individu_dataset.forEach(value => {
+        value.noKk = value.kartukeluarga.noKk
+        value.tanggalLahir = moment(value.tanggalLahir).add(1, 'days').format('Do MMMM YYYY')
+    })
+
+    const report = excel.buildExport(
+    [ // <- Notice that this is an array. Pass multiple sheets to create multi sheet report
+        {
+            name: 'Kartu keluarga', // <- Specify sheet name (optional)
+            heading: kk_heading, // <- Raw heading array (optional)
+            specification: kk_specification, // <- Report specification
+            data: kk_dataset // <-- Report data
+        },
+        {
+            name: 'Warga(individu)', // <- Specify sheet name (optional)
+            heading: individu_heading, // <- Raw heading array (optional)
+            specification: individu_specification, // <- Report specification
+            data: individu_dataset // <-- Report data
+        },
+    ]
+    )
+
+    jetpack.write(req.body.path, report)
+    res.json('Success')
 })
 
 

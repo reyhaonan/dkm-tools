@@ -3,19 +3,22 @@
     <div class="navigation__brand bg-white rounded shadow">
       <img src="@/assets/logo.svg" class="navigation__brand__logo" draggable="false">
       <span class="navigation__brand__name text-dovegray h4">
-        DKM Master
+        Hai DKM
       </span>
       <a-dropdown :trigger="['click']">
         <a-icon type="ellipsis" class="navigation__brand__more" @click="e => e.preventDefault()"/>
         <a-menu slot="overlay">
           <a-menu-item key="0">
-            <a @click.prevent="reset">Reset aplikasi</a>
+            <a @click.prevent="backup">Backup database</a>
           </a-menu-item>
           <a-menu-item key="1">
+            <a @click.prevent="reset">Reset aplikasi</a>
+          </a-menu-item>
+          <a-menu-item key="2">
             <a @click.prevent="openLinks('https://github.com/reyhaonan/dkm/issues/new')">Laporkan kendala</a>
           </a-menu-item>
           <a-menu-item key="3">
-            <a @click.prevent="openLinks('https://github.com/reyhaonan/dkm')">Tentang aplikasi</a>
+            <a @click.prevent="about">Tentang aplikasi</a>
           </a-menu-item>
         </a-menu>
       </a-dropdown>
@@ -35,12 +38,17 @@
 <script>
 import VueContext from '@/components/VueContext'
 import {shell} from 'electron'
+const { dialog } = require('electron').remote
+const WIN = require('electron').remote.getCurrentWindow();
 
 export default {
   components:{
     VueContext
   },
   methods:{
+    about(){
+      alert('Hai DKM ver 0.1.0', 'About')
+    },
     logout(){
       this.$store.dispatch('logout')
       this.$router.push('/')
@@ -50,6 +58,28 @@ export default {
     },
     reset(){
       this.$http.delete('/reset')
+    },
+    backup(){
+      dialog.showSaveDialog(WIN,{
+        //Placeholder 1
+        title: "Save file",
+        
+        //Placeholder 2
+        defaultPath : "DataDKM" + '.sqlite',
+        
+        //Placeholder 4
+        buttonLabel : "Simpan file",
+        
+        //Placeholder 3
+        filters :[
+          // {name: 'Microsoft excel', extensions: ['xlsx', 'xls']},
+          {name: 'Database file', extensions: ['sqlite']},
+          {name: 'All Files', extensions: ['*']}
+        ]
+        }, path => this.$http.post('/exportdatabase', {path: path})
+      )
+      
+      
     }
   }
 }

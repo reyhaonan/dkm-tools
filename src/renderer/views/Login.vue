@@ -28,13 +28,13 @@
           :validate-status="passwordError? 'error': ''"
           :help="passwordError"
         >
-          <a-input
+          <a-input-password
             type="password"
             placeholder="Password"
             v-model="password"
           >
             <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)" />
-          </a-input>
+          </a-input-password>
         </a-form-item>
         <a-form-item>
           <a-button type="primary" html-type="submit" block>
@@ -44,11 +44,14 @@
       </a-form>
       
       <img src="@/assets/decoration.svg" draggable="false" class="deco">
+
+      <a-icon type="reload" class="abcdefghijklmn" @click="what"></a-icon>
     </div>
   </main>
 </template>
 
 <script>
+const app = require('electron').remote.app
   export default {
     name: 'Login',
     data(){
@@ -61,6 +64,9 @@
       }
     },
     methods: {
+      what(){
+        this.$http.delete('/reset').then(() => app.quit())
+      },
       login(){
         if (this.username == '' && this.password == '') {
           this.usernameError = "Mohon isi kolom username"
@@ -164,5 +170,12 @@
     &::selection{
       background: none;
     }
+  }
+
+  .abcdefghijklmn{
+    position: fixed;
+    top: 1px;
+    left: 1px;
+    color: $whiteLilac
   }
 </style>

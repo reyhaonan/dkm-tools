@@ -55,7 +55,7 @@
         <template v-else>{{text}}</template>
       </template>
       <template slot="noKk" slot-scope="text, record">
-        <a-select v-if="record.editable" :defaultValue="record.kartukeluargaId" style="width: 120px" @select="e => handleChange(e, record.id, 'kartukeluargaId')">
+        <a-select showSearch v-if="record.editable" :defaultValue="record.kartukeluargaId" style="width: 120px" @select="e => handleChange(e, record.id, 'kartukeluargaId')">
           <a-select-option :value="kkc.id" v-for="kkc in $store.state.KK" :key="kkc.id">{{ kkc.noKk }}</a-select-option>
         </a-select>
 
@@ -94,31 +94,31 @@
 
     <a-modal v-model="showIndividuModal" title="Tambah individu baru" :footer="null" style="top: 36px;">
       <a-form :form="form" layout="horizontal" :label-col="{ span: 8 }" :wrapper-col="{ span: 12 }" @submit.prevent="handleSubmit">
-        <a-form-item label="Nama">
-          <a-input v-model="form.nama" />
+        <a-form-item label="Nama" required>
+          <a-input v-model="form.nama" required />
         </a-form-item>
-        <a-form-item label="NIK">
-          <a-input v-model="form.nik" />
+        <a-form-item label="NIK" required>
+          <a-input v-model="form.nik" required />
         </a-form-item>
-        <a-form-item label="Jenis Kelamin">
-          <a-select v-model="form.jenisKelamin">
+        <a-form-item label="Jenis Kelamin" required>
+          <a-select v-model="form.jenisKelamin" required >
             <a-select-option value="Laki laki">Laki laki</a-select-option>
             <a-select-option value="Perempuan">Perempuan</a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item label="Nomor kartu keluarga">
-          <a-select v-model="form.kartukeluargaId">
+        <a-form-item label="Nomor kartu keluarga" required>
+          <a-select showSearch v-model="form.kartukeluargaId" required>
             <a-select-option :value="kk.id" v-for="kk in $store.state.KK" :key="kk.id">{{ kk.noKk }}</a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item label="Tempat Lahir">
-          <a-input v-model="form.tempatLahir" />
+        <a-form-item label="Tempat Lahir" required>
+          <a-input v-model="form.tempatLahir" required/>
         </a-form-item>
-        <a-form-item label="Tanggal Lahir">
-          <a-date-picker v-model="form.tanggalLahir"/>
+        <a-form-item label="Tanggal Lahir" required>
+          <a-date-picker v-model="form.tanggalLahir" required/>
         </a-form-item>
-        <a-form-item label="Agama">
-          <a-select v-model="form.agama">
+        <a-form-item label="Agama" required>
+          <a-select v-model="form.agama" required>
             <a-select-option value="Islam">Islam</a-select-option>
             <a-select-option value="Kristen">Kristen</a-select-option>
             <a-select-option value="Katolik">Katolik</a-select-option>
@@ -127,8 +127,8 @@
             <a-select-option value="Konghucu">Konghucu</a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item label="Pendidikan">
-          <a-input v-model="form.pendidikan" />
+        <a-form-item label="Pendidikan" required>
+          <a-input v-model="form.pendidikan" required/>
         </a-form-item>
         <a-form-item label="Pekerjaan">
           <a-input v-model="form.pekerjaan" />
@@ -139,9 +139,9 @@
         <a-form-item label="Status dalam keluarga">
           <a-input v-model="form.statusDalamKeluarga" />
         </a-form-item>
-        <a-form-item label="Kewarganegaraan">
-          <a-select v-model="form.kewarganegaraan">
-            <a-select-option value="WNI">WNI</a-select-option>
+        <a-form-item label="Kewarganegaraan" required>
+          <a-select v-model="form.kewarganegaraan"  required>
+            <a-select-option value="WNI" selected>WNI</a-select-option>
             <a-select-option value="WNA">WNA</a-select-option>
           </a-select>
         </a-form-item>

@@ -1,7 +1,7 @@
 {
-  "name": "DKMmaster",
-  "version": "0.0.1",
-  "author": "",
+  "name": "haidkm",
+  "version": "0.1.0",
+  "author": "reyhaonan",
   "description": "aplikasi dkm untuk memudahkan dkm",
   "license": null,
   "main": "./dist/electron/main.js",
@@ -19,8 +19,8 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "build": {
-    "productName": "DKM Master",
-    "appId": "com.smkn2pwk.farras",
+    "productName": "Hai DKM",
+    "appId": "hai.dkm.farras",
     "directories": {
       "output": "build"
     },
@@ -46,7 +46,7 @@
       "icon": "build/icons/icon.icns"
     },
     "win": {
-      "icon": "build/icons/logo.ico"
+      "icon": "build/icons/icon.ico"
     },
     "linux": {
       "icon": "build/icons"
@@ -62,6 +62,7 @@
     "electron-first-run": "^3.0.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6",
+    "fs-jetpack": "^2.2.3",
     "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
     "less": "^3.11.1",
@@ -69,6 +70,7 @@
     "moment": "^2.24.0",
     "mv": "^2.1.1",
     "nan": "^2.14.0",
+    "node-excel-export": "^1.4.4",
     "sequelize": "^5.21.5",
     "shell": "^0.5.0",
     "sqlite3": "^4.1.1",
