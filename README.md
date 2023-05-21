@@ -1,3 +1,7 @@
-# -.-
+A desktop application for managing mosque resources and needs
 
-- 0.1.0 2020-03-27
+Tech stack:
+- Electron
+- Vue JS
+- Express
+- SQLite
